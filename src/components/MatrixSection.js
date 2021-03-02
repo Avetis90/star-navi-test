@@ -1,8 +1,9 @@
-import React, {useEffect, useState,useMemo} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import Select from './Select';
 import Button from './Button';
 import {getMatrixData} from '../api/square';
 import Matrix from './Matrix';
+import HoveredItemsList from './HoveredItemsList';
 
 const MatrixSection = () => {
     const [matrix, setMatrix] = useState([]);
@@ -19,7 +20,7 @@ const MatrixSection = () => {
     }, []);
     useEffect(() => {
         createMatrix(selected.current)
-    },[selected.current])
+    }, [selected.current])
     const handleMode = (e) => {
         const {value} = e.target;
         if (value) {
@@ -49,15 +50,19 @@ const MatrixSection = () => {
         info[el.row][el.col] = {...el, active: !el.active};
         setMatrix(info)
     };
-    const memoMatrix = useMemo(() => <Matrix mode={selected.current} matrix={matrix} handleHover={handleHover}/>,[selected.current,matrix])
+    const memoizedMatrix = useMemo(() => <Matrix mode={selected.current} matrix={matrix}
+                                                 handleHover={handleHover}/>, [selected.current, matrix])
     return (
-        <div className="matrix-list">
-            <div className="form">
-                <Select options={modes} onChange={handleMode}/>
-                <Button onClick={handleStart}/>
+        <>
+            <div className="matrix-list">
+                <div className="form">
+                    <Select options={modes} onChange={handleMode}/>
+                    <Button onClick={handleStart}/>
+                </div>
+                {memoizedMatrix}
             </div>
-            {memoMatrix}
-        </div>
+            <HoveredItemsList items={matrix.map(m => m.filter(item => item.active))}/>
+        </>
     );
 };
 

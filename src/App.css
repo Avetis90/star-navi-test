@@ -52,3 +52,17 @@
 .matrix-item{
     border: 1px solid #dedede;
 }
+.hovered-items{
+    width: 50%;
+    padding-left: 30px;
+}
+.hovered-items h2{
+    margin-bottom: 30px;
+}
+.hovered-item{
+    padding: 10px 15px;
+    background: #fbf8e3;
+    color: #8a6e3b;
+    margin-top: 5px;
+    font-weight: bold;
+}
